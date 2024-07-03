@@ -58,6 +58,15 @@ class Picture:
           print("Unable to create image")
   
   def show(self, title=None):
+    """
+    Shows the given image
+
+    Args:
+      title (string) - title of the image
+
+    Returns:
+      Nothing
+    """
     if title is not None:
       self.title = title
     mag_image, mag_size = self.magnify()
@@ -68,6 +77,15 @@ class Picture:
     pg.event.pump()
 
   def magnify(self, title=None):
+    """
+    Magnifies a given image
+
+    Args:
+      title (string) - title of the image
+
+    Returns:
+      Nothing
+    """
     orig_size = self.image.get_size()
     mag_size = (orig_size[0] * self.magnification,
                 orig_size[1] * self.magnification)
@@ -75,38 +93,87 @@ class Picture:
     return mag_image, mag_size
 
   def repaint(self):
+    """
+    Updates an image
+    """
     self.show()
     pg.display.flip()
     pg.event.pump()
-  
+
   def copyInto(self, dest, x, y):
+    """
+    Copies a given image onto another image
+
+    Args:
+      dest (Picture) - picture where the image is to be copied
+      x (int) - x position of the image
+      y (int) - y position of the image
+
+    Returns:
+      nothing
+    """
     img = self.image
     dest.image.blit(img, (x, y))
     if self.autoUpdate.autoUpdateBool:
       pg.display.update()
 
   def get_magnification(self):
-      return self.magnification
+    """
+    Returns the magnification of an image
+    """
+    return self.magnification
   
   def set_magnification(self, magnification):
-      self.magnification = magnification
+    """
+    Sets the magnification for an image
+
+    Args:
+      magnification (int, float) - magnification to be set
+
+    Returns:
+      Nothing
+    """
+    self.magnification = magnification
   
   def getWidth(self):
+    """
+    Returns the width of an image
+    """
     return self.image.get_width()
     
   def getHeight(self):
-      return self.image.get_height()
-  
-  # def getPixel(self, x, y):
-  #   px = Pixel(self.image, x, y)
-  #   return px
+    """
+    Returns the height of an image
+    """  
+    return self.image.get_height()
   
   def getColor(self, x, y):
-     return pg.Color(self.image.get_at((x, y))[0:3])
+    """
+    Gets the color of a pixel
+    
+    Args:
+      x (int) - the x position of the pixel
+      y (int) - the y position of the pixel
+    
+    Returns:
+      color of the pixel
+    """ 
+    return pg.Color(self.image.get_at((x, y))[0:3])
   
   def setColor(self, x, y, color):
-     self.image.set_at((x,y), color)
-     if self.autoUpdate.autoUpdateBool:
+    """
+    Sets the color of a pixel
+
+    Args:
+    x (int) - the x position of the pixel
+    y (int) - the y position of the pixel
+    color (Color) - the color the pixel will be set
+
+    Returns:
+      Nothing
+     """
+    self.image.set_at((x,y), color)
+    if self.autoUpdate.autoUpdateBool:
       pg.display.update()
 
   def getRed(self, x, y):
@@ -144,10 +211,6 @@ class Picture:
     self.setColor((r, g, b))
     if self.autoUpdate.autoUpdateBool:
       pg.display.flip()
-  
-  # def getPixels(self):
-  #   pxarray = pg.PixelArray(self.image)
-  #   return pxarray
   
   def addLine(self, acolor, x1, y1, x2, y2, width=1):
     img = self.image
@@ -237,76 +300,6 @@ class Picture:
     if self.autoUpdate.autoUpdateBool:
       pg.display.flip()
      
-# class Pixel:
-
-#   def __init__(self, image=None, x=None, y=None):
-#     self.image = pg.Surface.convert(image)
-#     self.array = pg.PixelArray(image)
-#     self.x = x
-#     self.y = y
-#     self.color = self.image.unmap_rgb(self.array[x,y])
-  
-#   def getX(self):
-#     return self.x
-  
-#   def getY(self):
-#     return self.y
-  
-#   def getColor(self):
-#     return self.color
-  
-#   def setColor(self, new_color):
-#     self.color = new_color
-#     self.array.close()
-#     pg.display.flip()
-  
-#   def getRed(self):
-#     c = pg.Color(self.getColor())
-#     return c.r
-  
-#   def setRed(self, red):
-#     r = red
-#     g = self.getGreen()
-#     b = self.getBlue()
-#     self.setColor((r, g, b))
-#     pg.display.flip()
-  
-#   def getGreen(self):
-#     c = pg.Color(self.getColor())
-#     return c.g
-  
-#   def setGreen(self, green):
-#     r = self.getRed()
-#     g = green
-#     b = self.getBlue()
-#     self.setColor((r, g, b))
-#     pg.display.flip()
-  
-#   def getBlue(self):
-#     c = pg.Color(self.getColor())
-#     return c.b
-
-#   def setBlue(self, blue):
-#     r = self.getRed()
-#     g = self.getGreen()
-#     b = blue
-#     self.setColor((r, g, b))
-#     pg.display.flip()
-  
-  # def getPixels(self):
-  #   pixels = list()
-  #   for x in range(self.image.getWidth()):
-  #     for y in range(self.image.getHeight()):
-  #       pixels.append(Pixel(self.image, x, y))
-  #   return pixels
-
-  # def getPixel(self, x, y):
-  #   px = Pixel(self.image, x, y)
-  #   return px
-     
-
-  
-
 
 # if __name__ == "__main__":
 #   canvas = makeEmptyCanvas(200, 200, "light green")
