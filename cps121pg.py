@@ -2,6 +2,8 @@ import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "yes"
 import pygame as pg
 
+
+#boolean for if changes should update automatically or not
 class autoUpdate():
   autoUpdateBool = False
 
@@ -96,9 +98,16 @@ class Picture:
     """
     Updates an image
     """
-    self.show()
+    mag_image, mag_size = self.magnify()
+    self.window.blit(mag_image, (0, 0))
     pg.display.flip()
     pg.event.pump()
+  
+  def close(self):
+    """
+    Closes image
+    """
+    pg.quit()
 
   def copyInto(self, dest, x, y):
     """
@@ -117,13 +126,13 @@ class Picture:
     if self.autoUpdate.autoUpdateBool:
       pg.display.update()
 
-  def get_magnification(self):
+  def getMagnification(self):
     """
     Returns the magnification of an image
     """
     return self.magnification
   
-  def set_magnification(self, magnification):
+  def setMagnification(self, magnification):
     """
     Sets the magnification for an image
 
@@ -165,9 +174,9 @@ class Picture:
     Sets the color of a pixel
 
     Args:
-    x (int) - the x position of the pixel
-    y (int) - the y position of the pixel
-    color (Color) - the color the pixel will be set
+      x (int) - the x position of the pixel
+      y (int) - the y position of the pixel
+      color (Color) - the color the pixel will be set
 
     Returns:
       Nothing
@@ -177,42 +186,122 @@ class Picture:
       pg.display.update()
 
   def getRed(self, x, y):
+    """
+    Returns the red value of a pixel
+
+    Args:
+      x (int) - the x position of the pixel
+      y (int) - the y position of the pixel
+
+    Returns:
+      value of red
+    """
     c = pg.Color(self.getColor(x, y))
     return c.r
   
   def getGreen(self, x, y):
+    """
+    Returns the green value of a pixel
+
+    Args:
+      x (int) - the x position of the pixel
+      y (int) - the y position of the pixel
+
+    Returns:
+      value of green
+    """
     c = pg.Color(self.getColor(x, y))
     return c.g
   
   def getBlue(self, x, y):
+    """
+    Returns the blue value of a pixel
+
+    Args:
+      x (int) - the x position of the pixel
+      y (int) - the y position of the pixel
+
+    Returns:
+      value of blue
+    """
     c = pg.Color(self.getColor(x, y))
     return c.b
   
-  def setRed(self, red):
+  def setRed(self, x, y, red):
+    """
+    Sets the red value of a pixel
+
+    Args:
+      x (int) - the x position of the pixel
+      y (int) - the y position of the pixel
+      red (int) - the red value to be set
+
+    Returns:
+      Nothing    
+    """
+    color = self.getColor(x,y)
     r = red
-    g = self.getGreen()
-    b = self.getBlue()
-    self.setColor((r, g, b))
+    g = color.g
+    b = color.b
+    self.image.set_at((x,y), (r, g, b))
     if self.autoUpdate.autoUpdateBool:
       pg.display.flip()
 
-  def setGreen(self, green):
-    r = self.getRed()
+  def setGreen(self, x, y, green):
+    """
+    Sets the green value of a pixel
+
+    Args:
+      x (int) - the x position of the pixel
+      y (int) - the y position of the pixel
+      green (int) - the green value to be set
+
+    Returns:
+      Nothing    
+    """
+    color = self.getColor(x,y)
+    r = color.r
     g = green
-    b = self.getBlue()
-    self.setColor((r, g, b))
+    b = color.b
+    self.image.set_at((x,y), (r, g, b))
     if self.autoUpdate.autoUpdateBool:
       pg.display.flip()
 
-  def setBlue(self, blue):
-    r = self.getRed()
-    g = self.getGreen()
+  def setBlue(self, x, y, blue):
+    """
+    Sets the blue value of a pixel
+
+    Args:
+      x (int) - the x position of the pixel
+      y (int) - the y position of the pixel
+      blue (int) - the blue value to be set
+
+    Returns:
+      Nothing    
+    """
+    color = self.getColor(x,y)
+    r = color.r
+    g = color.g
     b = blue
-    self.setColor((r, g, b))
+    self.image.set_at((x,y), (r, g, b))
     if self.autoUpdate.autoUpdateBool:
       pg.display.flip()
   
   def addLine(self, acolor, x1, y1, x2, y2, width=1):
+    """
+    Draws a line onto a given surface
+
+    Args:
+      acolor (Color) - color of the line
+      x1 (int) - beginning x position of the line
+      y1 (int) - beginning y position of the line
+      x2 (int) - ending x position of the line
+      y2 (int) - ending y position of the line
+      width (int) - thickness of the line
+
+    Returns:
+      Nothing
+    """
     img = self.image
     pg.draw.line(img, acolor, (x1, y1), (x2, y2), width)
     if self.autoUpdate.autoUpdateBool:
