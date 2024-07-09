@@ -12,6 +12,19 @@ magenta = (255,  0,255)
 yellow  = (255,255,  0)
 white   = (255,255,255)
 
+# If tkinter is available then we can define a pickAFile() function
+try:
+    import tkinter as tk
+    import tkinter.filedialog
+    def pickAFile():
+        root = tk.Tk()
+        root.withdraw()
+        filename = tk.filedialog.askopenfilename(title='Pick A File')
+        root.destroy()
+        return filename
+except ModuleNotFoundError:
+    pass
+
 class EventMonitor(threading.Thread):
     """Thread class to handle window close event"""
 
